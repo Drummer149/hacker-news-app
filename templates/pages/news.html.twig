@@ -1,0 +1,10 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+<div data-type={{ type }} data-page={{ page }} id="content">
+    <div id="newsFeed"></div>
+</div>
+<script type="module" src="{{ asset('js/components/news.js') }}">
+
+</script>
+{% endblock %}

@@ -8,11 +8,36 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 //Request::setTrustedProxies(array('127.0.0.1'));
 
-$app->get('/', function () use ($app) {
-    return $app['twig']->render('index.html.twig', array());
+$app->get('/', function (Request $request) use ($app) {
+    $page = $request->get('page');
+    if(is_null($page))
+        $page = 1;
+    
+    return $app['twig']->render('pages/news.html.twig', array('type' => 'topstories', 'page' => $page));
 })
-->bind('homepage')
-;
+->bind('homepage');
+
+$app->get('/newest', function (Request $request) use ($app) {
+    $page = $request->get('page');
+    if(is_null($page))
+        $page = 1;
+
+    return $app['twig']->render('pages/news.html.twig', array('type' => 'newstories', 'page' => $page));
+});
+
+$app->get('/past', function (Request $request) use ($app) {
+    $page = $request->get('page');
+    if(is_null($pages))
+        $page = 1;
+
+    return $app['twig']->render('pages/news.html.twig', array('type' => 'past', 'page' => $page));
+});
+
+$app->get('/item', function (Request $request) use ($app) {
+    $id = $request->get('id');
+    return $app['twig']->render('pages/item.html.twig', array('id' => $id));
+});
+
 
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
     if ($app['debug']) {
