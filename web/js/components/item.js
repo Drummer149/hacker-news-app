@@ -6,16 +6,15 @@ async function populateItem(id) {
   let item = await apiService.getItem(id);
   document.getElementById("newsItem").innerHTML = createNewsItem(item);
 
-  let kids = item.kids;
   let commentId = 'comments';
-  let actions = kids.map(item => populateComments(item, commentId, 0))
+  let actions = item.kids.map(item => populateComments(item, commentId, 0))
 };
 
 // Function to rescursively go through comments and create the comment heirachy 
+// Don't believe this way to do things is optimal just yet
 async function populateComments(id, commentId, index){
   let item = await apiService.getItem(id);
 
-  // This is not optimal
   document.getElementById(commentId).innerHTML += buildComment(item, index);
 
   let commentSectionId = "commentSection-id-" + item.id;
